@@ -1,0 +1,55 @@
+<!doctype html>  
+<html lang="en">  
+    <head>
+
+    </head>
+    <body>
+        <h1>Hello World!</h1>
+        <div id="future"></div>
+        <form id="form" id="chat_form">
+            <label for="chat_input">To who </label>
+            <input id="chat_input" type="text">
+            <label for="chat_message">Message</label>
+            <textarea id="chat_message"></textarea>
+            <input id="send" type="button" value="Send">
+        </form>
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>  
+        <script>  
+            var socket = io.connect('http://wizzlebridge.herokuapp.com/');
+            room = '';
+            var socket = io();
+            socket.on('connect', function(data) {
+                
+            });
+            socket.on('testEvent', function(data) {
+                console.log(data);
+                alert(data.from);
+                console.log(data.from);
+                alert(data.msg);
+                console.log(data.msg);
+            });
+            socket.on('testing', function(data) {
+                alert('Your ID is in console');
+                console.log(data.data);
+            });
+
+            socket.on('connection', function(data) {
+                alert('Your ID is in console');
+                console.log(data.sessionID);
+                room = data.sessionID;
+            });
+
+            socket.on('connected', function(data) {
+                console.log(data);
+            })
+            jQuery('#send').on('click',function(){
+                var id = jQuery('#chat_input').val();
+                var message = jQuery('#chat_message').val();
+                //console.log(id);
+                socket.emit('wallet', { sessionID : room, msg : message } );
+            })
+        </script>      
+    </body>
+</html> 
+
