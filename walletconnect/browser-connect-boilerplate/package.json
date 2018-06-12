@@ -1,0 +1,18 @@
+{
+  "name": "flashboys-connect-boilerplate",
+  "version": "0.0.1",
+  "description": "Flashboys connect example (boilerplate) for communication with bridge server and hd wallets.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Blockchain",
+    "ethereum",
+    "dapps",
+    "mobile",
+    "wallets."
+  ],
+  "author": "dusandj@gmail.com",
+  "license": "ISC"
+}
