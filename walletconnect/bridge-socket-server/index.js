@@ -21,14 +21,13 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
+// ORIGINS
 io.origins(['*:*']) 
 
 
 io.on('connection', (socket) => {
-    let id = uuid();
-    console.log(id);
-    socket.join(id);
 
+    ///dapp connected
     socket.emit('on-connection', {connected: true})
 
     ///socket options for dapp connection
@@ -36,41 +35,44 @@ io.on('connection', (socket) => {
         let uiid = uuid()
         console.log(`New socket id : ${uiid}`)
         socket.join(uiid)
-        socket.in(uiid).emit('dapp-connected', {sessionId: id, sharedKey: token})
+        io.in(uiid).emit('dapp-connected', {sessionId: uiid, sharedKey: token})
     })
 
     ///connect the wallet to server and notify the dapp
     socket.on('connect-wallet', (data) => {
         socket.join(data.sessionId)
-        socket.broadcast.to(data.sessionId).emit('wallet-connected', {connected: true})
+        console.log('Wallet connected');
+        console.log(`session id ${data.sessionId}`)
+        socket.to(data.sessionId).emit('wallet-connected', {connected: true})
     })
 
     ///address events
     socket.on('request-address', (data) => {
-        socket.broadcast.to(data.sessionId).emit('request-address', data)
+        socket.to(data.sessionId).emit('request-address', data)
     })
     
     socket.on('response-address', (data) => {
-        socket.broadcast.to(data.sessionId).emit('response-address', data)
+        socket.to(data.sessionId).emit('response-address', data)
     })
 
     socket.on('request-new-address', (data) => {
-        socket.broadcast.to(data.sessionId).emit('request-new-address', data)
+        socket.to(data.sessionId).emit('request-new-address', data)
     })
 
     socket.on('response-new-address', (data) => {
-        socket.broadcast.to(data.sessionId).emit('response-new-address', data)
+        socket.to(data.sessionId).emit('response-new-address', data)
     })
 
 
     ///transcation events
 
     socket.on('request-signed-transaction', (data) => {
-        socket.broadcast.to(data.sessionId).emit('request-signed-transaction', data)
+        socket.to(data.sessionId).emit('request-signed-transaction', data)
     })
 
     socket.on('response-signed-transaction', (data) => {
-        socket.broadcast.to(data.sessionId).emit('response-signed-transaction', data)
+        console.log(`sessionId ${data.sessionId}`)
+        socket.to(data.sessionId).emit('response-signed-transaction', data)
     })
 });
 
