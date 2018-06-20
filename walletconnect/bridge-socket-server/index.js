@@ -33,7 +33,6 @@ io.on('connection', (socket) => {
     ///socket options for dapp connection
     socket.on('connect-dapp', (data) => {
         let uiid = uuid()
-        console.log(`New socket id : ${uiid}`)
         socket.join(uiid)
         io.in(uiid).emit('dapp-connected', {sessionId: uiid, sharedKey: token})
     })
@@ -41,8 +40,6 @@ io.on('connection', (socket) => {
     ///connect the wallet to server and notify the dapp
     socket.on('connect-wallet', (data) => {
         socket.join(data.sessionId)
-        console.log('Wallet connected');
-        console.log(`session id ${data.sessionId}`)
         socket.to(data.sessionId).emit('wallet-connected', {connected: true})
     })
 
@@ -71,8 +68,18 @@ io.on('connection', (socket) => {
     })
 
     socket.on('response-signed-transaction', (data) => {
-        console.log(`sessionId ${data.sessionId}`)
         socket.to(data.sessionId).emit('response-signed-transaction', data)
+    })
+
+    //this is used by bondex and briqchain
+    //we create a 0x order on briqchain and requset from bondex app to sign the order
+    //data example: {sessionId: sessionId, data: data, id: id} --> id represent the wallet address we are using so the mobile wallet know how to sign
+    socket.on('request-signed-order', (data) => {
+        socket.to(data.sessionId).emit('request-signed-order', data)
+    })
+
+    socket.on('response-signed-order', (data) => {
+        socket.to(data.sessionId).emit('response-signed-order', data)
     })
 });
 
