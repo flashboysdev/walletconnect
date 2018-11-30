@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Flashboys Connect</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-</head>
-<body>
+  </head>
+  <body>
+    <div id="link"><a href="" id="deeplinking">Open</a></div>
     <div id="qr"></div>
-    <script type="text/javascript" src="./node_modules/qrcode-generator/qrcode.js"></script>
-    <script src="./node_modules/crypto-js/crypto-js.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.1/qrcode.js"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9/crypto-js.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
     <script src="./js/web3.min.js"></script>
     <script src="./js/index.js"></script>
-
-</body>
+  </body>
 </html>
